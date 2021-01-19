@@ -45,3 +45,4 @@ rmdir %{_dstdir} %{_regmapdstdir}
 %files
 %defattr(-,root,root)
 %{_dstdir}/*
+%{_regmapdstdir}/*

@@ -24,6 +24,7 @@ ifndef CONFIG_REGMAP_SPI_AVMM
 obj-m += regmap-spi-avmm.o
 endif
 
+obj-m += regmap-indirect-register.o
 obj-m += fpga-mgr.o
 obj-m += fpga-bridge.o
 obj-m += fpga-region.o
@@ -46,6 +47,7 @@ obj-m += dfl-pci.o
 
 regmap-mmio-y := drivers/base/regmap/regmap-mmio.o
 regmap-spi-avmm-y := drivers/base/regmap/regmap-spi-avmm.o
+regmap-indirect-register-y := drivers/base/regmap/regmap-indirect-register.o
 dfl-y := drivers/fpga/dfl.o
 
 dfl-afu-y := drivers/fpga/dfl-afu-main.o

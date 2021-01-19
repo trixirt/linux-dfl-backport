@@ -44,4 +44,16 @@ struct regmap *__devm_regmap_init_spi_avmm(struct spi_device *spi,
 	__regmap_lockdep_wrapper(__devm_regmap_init_spi_avmm, #config,	\
 				 spi, config)
 
+/**
+ * devm_regmap_init_indirect_register - create a regmap for indirect register access
+ * @dev: device creating the regmap
+ * @base: __iomem point to base of memory with mailbox
+ * @cfg: regmap_config describing interface
+ *
+ * Return: 0 on success, negative error code otherwise.
+ */
+struct regmap *devm_regmap_init_indirect_register(struct device *dev,
+						  void __iomem *base,
+						  struct regmap_config *cfg);
+
 #endif
