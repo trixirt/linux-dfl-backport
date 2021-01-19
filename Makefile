@@ -14,6 +14,12 @@ endif
 export BACKPORT_VERSION
 
 # modules to build (in insmod order)
+ifndef CONFIG_REGMAP_MMIO
+ifndef DKMS
+obj-m += regmap-mmio.o
+endif
+endif
+
 ifndef CONFIG_REGMAP_SPI_AVMM
 obj-m += regmap-spi-avmm.o
 endif
@@ -38,6 +44,7 @@ obj-m += intel-m10-bmc-hwmon.o
 obj-m += intel-m10-bmc-secure.o
 obj-m += dfl-pci.o
 
+regmap-mmio-y := drivers/base/regmap/regmap-mmio.o
 regmap-spi-avmm-y := drivers/base/regmap/regmap-spi-avmm.o
 dfl-y := drivers/fpga/dfl.o
 
