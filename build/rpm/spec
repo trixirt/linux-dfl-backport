@@ -11,6 +11,9 @@ Requires:           dkms, (kernel-devel if kernel), (kernel-rt-devel-uname-r if 
 %define _dstdir %{_usrsrc}/linux-dfl-backport-%{version}-%{release}
 %define _pkgdir %{buildroot}%{_dstdir}
 
+%define _regmapdstdir %{_usrsrc}/regmap-mmio-backport-%{version}-%{release}
+%define _regmappkgdir %{buildroot}%{_regmapdstdir}
+
 %description
 Device Feature List (dfl) is used by FPGAs to communicate features
 supported by a given loaded firmware/bitstream. Since dfl support in the
@@ -21,12 +24,20 @@ version of the current dfl support.
 install -d %{_pkgdir}
 cp -a build/dkms/dkms.conf Makefile drivers include %{_pkgdir}
 
+install -d  %{_regmappkgdir}/drivers
+install -m644 build/dkms/regmap-mmio.conf %{_regmappkgdir}/dkms.conf
+install -m644 build/regmap-mmio.rules %{_regmappkgdir}/Makefile
+install -m755 build/dkms/symvers.sh %{_regmappkgdir}
+mv %{_pkgdir}/drivers/base %{_regmappkgdir}/drivers
+
 %post
+dkms add regmap-mmio-backport/%{version}-%{release} --rpm_safe_upgrade
 dkms add %{name}/%{version}-%{release} --rpm_safe_upgrade
-dkms install %{name}/%{version}-%{release} --rpm_safe_upgrade
+dkms autoinstall %{name}/%{version}-%{release} --rpm_safe_upgrade
 
 %preun
 dkms remove %{name}/%{version}-%{release} --rpm_safe_upgrade --all
+dkms remove regmap-mmio-backport/%{version}-%{release} --rpm_safe_upgrade --all
 
 %postun
 rmdir %{_dstdir} %{_regmapdstdir}
@@ -34,3 +45,4 @@ rmdir %{_dstdir} %{_regmapdstdir}
 %files
 %defattr(-,root,root)
 %{_dstdir}/*
+%{_regmapdstdir}/*

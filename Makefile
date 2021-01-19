@@ -14,6 +14,11 @@ endif
 export BACKPORT_VERSION
 
 # modules to build (in insmod order)
+ifndef CONFIG_REGMAP_MMIO
+ifndef DKMS
+obj-m += regmap-mmio.o
+endif
+endif
 obj-m += fpga-mgr.o
 obj-m += fpga-bridge.o
 obj-m += fpga-region.o
@@ -49,6 +54,8 @@ reverse := $(subst -,_,$(basename $(reverse)))
 # explicit rules used to call insmod and rmmod for all modules
 rules_rmmod := $(addprefix rmmod_,$(reverse))
 rules_insmod := $(addprefix insmod_,$(modules))
+
+regmap-mmio-y := drivers/base/regmap/regmap-mmio.o
 
 dfl-y := drivers/fpga/dfl.o
 

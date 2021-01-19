@@ -1,0 +1,14 @@
+KERNEL ?= $(shell uname -r)
+KERNELDIR ?= /lib/modules/$(KERNEL)/build
+
+obj-m += regmap-mmio.o
+regmap-mmio-y := drivers/base/regmap/regmap-mmio.o
+
+all:
+	@$(MAKE) -C $(KERNELDIR) M=$(CURDIR) modules
+
+install:
+	@$(MAKE) -C $(KERNELDIR) M=$(CURDIR) INSTALL_MOD_DIR=extra modules_install
+
+clean:
+	@$(MAKE) -C $(KERNELDIR) M=$(CURDIR) clean
