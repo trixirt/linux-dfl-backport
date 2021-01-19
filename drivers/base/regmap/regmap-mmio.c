@@ -10,6 +10,7 @@
 #include <linux/module.h>
 #include <linux/regmap.h>
 #include <linux/slab.h>
+#include <linux/version.h>
 
 #include "internal.h"
 
@@ -290,7 +291,9 @@ static struct regmap_mmio_context *regmap_mmio_gen_context(struct device *dev,
 
 	ctx->regs = regs;
 	ctx->val_bytes = config->val_bits / 8;
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 12, 0)
 	ctx->relaxed_mmio = config->use_relaxed_mmio;
+#endif
 	ctx->clk = ERR_PTR(-ENODEV);
 
 	switch (regmap_get_val_endian(dev, &regmap_mmio, config)) {
